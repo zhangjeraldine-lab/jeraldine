@@ -3,6 +3,8 @@ import { useAppStore } from '@/store';
 import { isRTL, normalizeLang } from '@/utils/language';
 import '../styles/HomeScreen.css';
 
+const assetUrl = (path) => `${import.meta.env.BASE_URL}${path}`;
+
 const HOME_COPY = {
   zh: {
     eyebrow: 'Layover · 共绘连接',
@@ -140,7 +142,7 @@ export const HomeScreen = () => {
           <button className="home-card" onClick={() => choose('drawing')}>
             <span className="home-card-top">
               <span className="home-card-icon">
-                <img className="home-card-icon-img" src="/drawing.svg" alt="" aria-hidden="true" />
+                <img className="home-card-icon-img" src={assetUrl('drawing.svg')} alt="" aria-hidden="true" />
               </span>
               <span className="home-card-arrow">↗</span>
             </span>
@@ -156,7 +158,7 @@ export const HomeScreen = () => {
           <button className="home-card" onClick={() => choose('solo')}>
             <span className="home-card-top">
               <span className="home-card-icon">
-                <img className="home-card-icon-img" src="/solo.svg" alt="" aria-hidden="true" />
+                <img className="home-card-icon-img" src={assetUrl('solo.svg')} alt="" aria-hidden="true" />
               </span>
               <span className="home-card-arrow">↗</span>
             </span>
@@ -172,7 +174,7 @@ export const HomeScreen = () => {
           <button className="home-card" onClick={() => choose('language')}>
             <span className="home-card-top">
               <span className="home-card-icon">
-                <img className="home-card-icon-img" src="/language.svg" alt="" aria-hidden="true" />
+                <img className="home-card-icon-img" src={assetUrl('language.svg')} alt="" aria-hidden="true" />
               </span>
               <span className="home-card-arrow">↗</span>
             </span>

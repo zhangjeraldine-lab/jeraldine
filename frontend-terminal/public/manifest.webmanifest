@@ -1,15 +1,15 @@
 {
   "name": "Layover Co-Drawing Connections",
   "short_name": "Layover",
-  "start_url": "/index.html",
-  "scope": "/",
+  "start_url": ".",
+  "scope": ".",
   "display": "fullscreen",
   "background_color": "#f7fbfa",
   "theme_color": "#f7fbfa",
   "orientation": "landscape",
   "icons": [
     {
-      "src": "/layover-logo.svg",
+      "src": "layover-logo.svg",
       "sizes": "any",
       "type": "image/svg+xml",
       "purpose": "any maskable"
