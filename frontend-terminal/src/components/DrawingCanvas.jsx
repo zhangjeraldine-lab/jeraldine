@@ -1388,7 +1388,7 @@ export const DrawingCanvas = ({ mode = 'co' }) => {
     setIsStoryLoading(true);
     setGenerationError(null);
     try {
-      const imageData = selectedGenerated?.imageData || exportArtworkWithPaper(canvasRef.current, isSolo);
+      const imageData = exportArtworkWithPaper(canvasRef.current, isSolo);
       const res = await fetch(`${API_BASE}/api/ai-story`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -1410,7 +1410,7 @@ export const DrawingCanvas = ({ mode = 'co' }) => {
     } finally {
       setIsStoryLoading(false);
     }
-  }, [isSolo, isStoryLoading, selectedGenerated, primaryCopy, leftLanguage, rightLanguage]);
+  }, [isSolo, isStoryLoading, primaryCopy, leftLanguage, rightLanguage]);
 
   const selectGeneratedStyle = useCallback((option) => {
     setSelectedGenerated(option);

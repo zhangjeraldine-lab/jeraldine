@@ -210,6 +210,7 @@ wssInterpret.on('connection', (client, request, url) => {
   });
 
   let upstreamReady = false;
+  let responseActive = false;
   const clientQueue = [];
 
   const safeSendClient = (obj) => {
@@ -244,6 +245,9 @@ wssInterpret.on('connection', (client, request, url) => {
     catch { return; }
 
     switch (evt.type) {
+      case 'response.created':
+        responseActive = true;
+        break;
       case 'response.audio.delta':
         safeSendClient({ type: 'audio.delta', audio: evt.delta });
         break;
@@ -260,9 +264,14 @@ wssInterpret.on('connection', (client, request, url) => {
         safeSendClient({ type: 'source.done', text: evt.transcript || '' });
         break;
       case 'response.done':
+        responseActive = false;
         safeSendClient({ type: 'response.done' });
         break;
       case 'error':
+        if (/no ongoing response to cancel/i.test(evt.error?.message || '')) {
+          responseActive = false;
+          break;
+        }
         console.error('  upstream error:', evt.error);
         safeSendClient({ type: 'error', message: evt.error?.message || 'upstream error' });
         break;
@@ -301,10 +310,14 @@ wssInterpret.on('connection', (client, request, url) => {
         break;
       case 'commit':
         forward({ type: 'input_audio_buffer.commit' });
+        responseActive = true;
         forward({ type: 'response.create' });
         break;
       case 'cancel':
-        forward({ type: 'response.cancel' });
+        if (responseActive) {
+          forward({ type: 'response.cancel' });
+          responseActive = false;
+        }
         forward({ type: 'input_audio_buffer.clear' });
         break;
       default:
